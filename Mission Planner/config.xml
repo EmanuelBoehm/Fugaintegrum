@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <NUM_tracklength>200</NUM_tracklength>
+  <guid>d641d7ee-5383-49b1-a655-47f93c5bbc80</guid>
+  <terminaltheming>True</terminaltheming>
+  <plane_guid>8100e2b0-743b-45ff-8453-a3bedb84d008</plane_guid>
+  <copter_guid>c465dbe4-3390-4280-a4ee-3e5eee1f69e1</copter_guid>
+  <rover_guid>0a7205f9-98f9-4a5a-a6e5-547f4ebdcbef</rover_guid>
+  <Tuning_Graph_Selected>roll|pitch|nav_roll|nav_pitch|</Tuning_Graph_Selected>
+  <MapType>GoogleSatelliteMap</MapType>
+  <comport>AUTO</comport>
+  <AUTO_BAUD>115200</AUTO_BAUD>
+  <APMFirmware>ArduCopter2</APMFirmware>
+</Config>
