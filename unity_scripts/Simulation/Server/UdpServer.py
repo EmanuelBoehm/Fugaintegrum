@@ -1,12 +1,11 @@
 class UdpServer():
     def __init__(self, udpIP, portTX, portRX, enableRX=False, suppressWarnings=True):
         """
-        Constructor
-        :param udpIP: Must be string e.g. "127.0.0.1"
-        :param portTX: integer number e.g. 8000. Port to transmit from i.e From Python to other application
-        :param portRX: integer number e.g. 8001. Port to receive on i.e. From other application to Python
-        :param enableRX: When False you may only send from Python and not receive. If set to True a thread is created to enable receiving of data
-        :param suppressWarnings: Stop printing warnings if not connected to other application
+        Constructor :param udpIP: Must be string e.g. "127.0.0.1" :param portTX: integer number e.g. 8000. Port to
+        transmit from i.e From Python to other application :param portRX: integer number e.g. 8001. Port to receive
+        on i.e. From other application to Python :param enableRX: When False you may only send from Python and not
+        receive. If set to True a thread is created to enable receiving of data :param suppressWarnings: Stop
+        printing warnings if not connected to other application
         """
 
         import socket

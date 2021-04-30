@@ -35,7 +35,12 @@ class Drone:
             return self.pic
 
         pic = np.array([[i[0] for i in j] for j in np.array(Image.open(BytesIO(pic_data)))])
+
+        # 15.4 -> Unity cam frame max dist
+        # 0.2 -> Unity min dist
         pic = (pic / 255) * 15.4 + 0.2
+
+        # Set everything with max dist (white pixels) to 0 for easier removal
         pic[pic == 15.6] = 0
 
         self.pic = pic  # Safe last pic
@@ -54,11 +59,12 @@ class Drone:
             "name": "move_to",
             "x": dest[0],
             "y": dest[2],
-            "z": dest[1],  # unity weird
+            "z": dest[1],  # unity weird -> switch z,y
         }
         # print(str(data))
         self.udp_server.SendData(str(data))
 
+    # Dont use, unlike drone features
     def move_to_relative(self, x=0., y=0., z=0.):
         # x,y,z = self.float_cs(x,y,z)
         # print(x)
@@ -70,6 +76,11 @@ class Drone:
         }
         self.udp_server.SendData(str(data))
 
+    # Rotates relative to current drone angle
+    # E.g Drone looks East (90 deg) and we call (rotate_by(90))
+    # Drone will then be facing South (180 deg)
+    # Pos input -> clockwise
+    # Neg input -> counter clock
     def rotate_by(self, angle=0.):
         data = {
             "name": "rotate_by",
@@ -81,6 +92,7 @@ class Drone:
         temp = self.receive_data()
         if temp is not None:
             pos = np.array(json.loads(temp)["pos"])
+            # Unity weird again (¬_¬ )
             pos = [pos[0], pos[2], pos[1]]
             self.pos = pos  # Safe last pos
             # print(pos)

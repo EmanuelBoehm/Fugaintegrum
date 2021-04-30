@@ -1,12 +1,10 @@
 import socket
-import sys
 import threading
 import select
-from io import BytesIO
 
 
-class TcpServer():
-    def __init__(self, tcpIP='127.0.0.1', port=9500, debug=False, buffer_size=102400):
+class TcpServer:
+    def __init__(self, TCP_IP='127.0.0.1', port=9500, debug=False, buffer_size=102400):
         """
         Constructor
         :param TCP_IP: Must be string e.g. "127.0.0.1"
@@ -14,7 +12,7 @@ class TcpServer():
         :param buffer_size: integer number most commonly used is 1024
         :param debug: boolean, when true print on connection changes to console
         """
-        self.TCP_IP = tcpIP
+        self.TCP_IP = TCP_IP
         self.TCP_PORT = port
         self.BUFFER_SIZE = buffer_size
         self.debug = debug
@@ -28,7 +26,7 @@ class TcpServer():
         self.listen_thread.start()
 
     def __del__(self):
-        if self.server != None:
+        if self.server is not None:
             self.server.close()
 
     def ReceiveData(self):  # get's called by an external thread
@@ -42,7 +40,7 @@ class TcpServer():
             for sock in rxfds:
                 if sock is server:
                     conn, addr = self.server.accept()
-                    conn.setblocking(0)
+                    conn.setblocking(False)
                     rxset.append(conn)
                     if self.debug:
                         print('Connection from address:', addr)
