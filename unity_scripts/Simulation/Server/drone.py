@@ -29,12 +29,18 @@ class Drone:
         :return:
         """
 
-        pic_data = self.tcp_server.ReadReceivedData()
-
+        pic_data = None
+	img_bytes = self.tcp_server.ReadReceivedData()
+        if img_bytes != None:
+            try:
+                pic_data = Image.open(BytesIO(img_bytes)))
+            except UnidentifiedImageError:
+                print("image was not send correctly")
+                
         if pic_data is None:
             return self.pic
 
-        pic = np.array([[i[0] for i in j] for j in np.array(Image.open(BytesIO(pic_data)))])
+        pic = np.array([[i[0] for i in j] for j in np.array(pic_data))])
 
         # 15.4 -> Unity cam frame max dist
         # 0.2 -> Unity min dist
