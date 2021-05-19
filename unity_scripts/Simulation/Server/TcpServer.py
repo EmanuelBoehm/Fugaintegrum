@@ -1,9 +1,8 @@
 import socket
-import sys
 import threading
 import select
-from io import BytesIO
-import time
+
+
 class TcpServer():
     def __init__(self, tcpIP='127.0.0.1', port=9500, debug=False, buffer_size=2048):
         """
@@ -13,7 +12,7 @@ class TcpServer():
         :param buffer_size: integer number most commonly used is 1024
         :param debug: boolean, when true print on connection changes to console
         """
-     
+
         self.TCP_IP = tcpIP
         self.TCP_PORT = port
         self.BUFFER_SIZE = buffer_size
@@ -21,20 +20,19 @@ class TcpServer():
         self.data = None
         self.isDataReceived = False
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
-        server.bind((self.TCP_IP,self.TCP_PORT))
+
+        server.bind((self.TCP_IP, self.TCP_PORT))
         server.listen()
         self.server = server
-        self.listen_thread = threading.Thread(target=self.ReceiveData,daemon=True)
+        self.listen_thread = threading.Thread(target=self.ReceiveData, daemon=True)
         self.listen_thread.start()
-        
 
     def __del__(self):
         if self.server != None:
             self.server.close()
         print("del")
 
-    def ReceiveAll(self,socket,BUFFER):
+    def ReceiveAll(self, socket, BUFFER):
         """
         TCP does not send everything in one package.
         If package is completly send, socket.recv() will return an empty bytestring.
@@ -48,14 +46,12 @@ class TcpServer():
         data += temp
         return data
 
-
-
-    def ReceiveData(self): #get's called by an external thread
-        #self.isDataReceived = False
+    def ReceiveData(self):  # get's called by an external thread
+        # self.isDataReceived = False
         server = self.server
         rxset = [server]
         txset = []
-        
+
         while True:
             rxfds, _, _ = select.select(rxset, txset, rxset)
             for sock in rxfds:
@@ -66,8 +62,8 @@ class TcpServer():
                     if self.debug:
                         print('Connection from address:', addr)
                 else:
-                    data = self.ReceiveAll(sock,self.BUFFER_SIZE)
-                    if data == ";" :
+                    data = self.ReceiveAll(sock, self.BUFFER_SIZE)
+                    if data == ";":
                         print("Received all the data")
                         rxset.remove(sock)
                         sock.close()
@@ -75,7 +71,7 @@ class TcpServer():
                         self.data = data
                         self.isDataReceived = True
 
-    #may by external by user to get currrent buffer
+    # may by external by user to get currrent buffer
     def ReadReceivedData(self):
         """
         This function should be used by the user.
@@ -85,7 +81,7 @@ class TcpServer():
         """
         data = None
         if self.isDataReceived:
-            self.isDataReceived = False # reset
+            self.isDataReceived = False  # reset
             data = self.data
-            self.data = None #empty buffer
+            self.data = None  # empty buffer
         return data

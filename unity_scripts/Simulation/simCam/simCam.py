@@ -27,8 +27,8 @@ def can_go_further(dist_array):
     :return: boolean
     """
     # [39:80, 39:120] middle third of height and center half of width
-    dist_array = max_reBin(dist_array, (120, 160))[19:100, 19:140]
-    return (dist_array[dist_array != 0.0] > 1.5).all()
+    dist_array = max_reBin(dist_array, (120, 160))[9:110, 19:140]
+    return (dist_array[dist_array != 0.0] > 1).all()
 
 
 def to_cord(dist_array, cam_pitch=0, cam_yaw=0, cam_position=None, z_range=0.15):
