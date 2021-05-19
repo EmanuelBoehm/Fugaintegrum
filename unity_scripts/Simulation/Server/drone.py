@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 
 from Simulation.Server import UdpServer as udp, TcpServer as tcp
 import numpy as np
@@ -30,17 +30,17 @@ class Drone:
         """
 
         pic_data = None
-	img_bytes = self.tcp_server.ReadReceivedData()
-        if img_bytes != None:
+        img_bytes = self.tcp_server.ReadReceivedData()
+        if img_bytes is not None:
             try:
-                pic_data = Image.open(BytesIO(img_bytes)))
+                pic_data = Image.open(BytesIO(img_bytes))
             except UnidentifiedImageError:
                 print("image was not send correctly")
                 
         if pic_data is None:
             return self.pic
 
-        pic = np.array([[i[0] for i in j] for j in np.array(pic_data))])
+        pic = np.array([[i[0] for i in j] for j in np.array(pic_data)])
 
         # 15.4 -> Unity cam frame max dist
         # 0.2 -> Unity min dist
